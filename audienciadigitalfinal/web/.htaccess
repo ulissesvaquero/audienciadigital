@@ -1,0 +1,10 @@
+AddType video/ogg .ogv
+AddType video/webm .webm
+AddType video/mp4 .mp4
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php
+

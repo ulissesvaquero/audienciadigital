@@ -1,0 +1,1 @@
+schtasks /create /sc minute /mo 5 /tn "my task name" /tr "D:\xampp\php\php.exe -f D:\xampp\htdocs\testecron\cron.php"
