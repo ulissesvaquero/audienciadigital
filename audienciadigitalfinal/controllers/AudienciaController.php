@@ -212,9 +212,15 @@ class AudienciaController extends Controller
     				}
     				$arquivoFinal = md5(microtime()).'.webm';
     				$cmd = ' -f concat -i '.$pathFile.' -c copy '.$path.$arquivoFinal;
-    				//GATO PRA FUNCIONAR NO WINDOWS
-    				$cmd = str_replace('/', '\\', $cmd);
-    				exec ( Yii::getAlias('@ffmpeg') . $cmd . ' 2>&1', $out, $ret );
+
+				//GATO PRA FUNCIONAR NO WINDOWS
+				if(strstr(Yii::getAlias('@ffmpeg'), 'windows'))
+				{
+					$cmd = str_replace('/', '\\', $cmd);
+				}
+    				
+				exec ( Yii::getAlias('@ffmpeg') . $cmd . ' 2>&1', $out, $ret );
+
     				unlink($pathFile);
     				$arquivo = new Multimidia();
     				$arquivo->dsc_arquivo = $arquivoFinal;
@@ -304,7 +310,7 @@ class AudienciaController extends Controller
     		{
     			if(!is_dir(Yii::getAlias('@upload').'/'.$audiencia->id))
     			{
-    				mkdir(Yii::getAlias('@upload').'/'.$audiencia->id);
+    				mkdir(Yii::getAlias('@upload').'/'.$audiencia->id,0777);
     			}
     			
     			$nomeArquivo = md5(microtime(true));
